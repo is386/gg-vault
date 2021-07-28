@@ -76,6 +76,23 @@ def login():
     return Response("{'token': %s}" % token.decode("utf-8"), status=200)
 
 
+@app.route("/auth", methods=["POST"])
+def auth():
+    # TODO: Check if header exists
+    auth_header = request.headers.get("authorization")
+
+    # TODO: Check if auth header has proper format
+    token: str = auth_header.split(" ")[1]
+    payload: dict = jwt.decode(token, key=env_data["access_token_secret"])
+
+    # TODO Check if payload has username
+    user: str = payload["username"]
+    if not db.user_exists(user):
+        return Response("{'error': 'username does not exist'}", status=401)
+
+    return Response(status=200)
+
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, "_database", None)
