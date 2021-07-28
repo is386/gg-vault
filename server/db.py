@@ -31,3 +31,11 @@ class Database:
                     "wishlist"  INTEGER
             );""")
         return conn
+
+    # Returns True if the username is available, false otherwise
+    def user_available(self, user: str) -> bool:
+        c: Cursor = self.__conn.cursor()
+        c = self.__conn.execute(
+            "SELECT username FROM users WHERE username=?", (user,))
+        rows: list = c.fetchall()
+        return len(rows) == 0
