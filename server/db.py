@@ -39,3 +39,13 @@ class Database:
             "SELECT username FROM users WHERE username=?", (user,))
         rows: list = c.fetchall()
         return len(rows) == 0
+
+    # Inserts the given username and password into the DB
+    def insert_user(self, user: str, pw: str):
+        self.__conn.execute("""
+            INSERT INTO
+                users(username, password)
+            VALUES
+                (?, ?)
+            """, (user, pw))
+        self.__conn.commit()
