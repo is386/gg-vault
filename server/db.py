@@ -17,11 +17,12 @@ class Database:
     # Returns a connection to the DB
     # Creates the tables if they do not exist
     def __init_db(self, db_path: str) -> Connection:
-        conn: Connection = connect(db_path)
+        conn: Connection = connect(db_path, check_same_thread=False)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS "users" (
                     "id"        INTEGER NOT NULL UNIQUE,
                     "username"  TEXT UNIQUE,
+                    "password"  TEXT,
                     PRIMARY KEY("id")
             );""")
         conn.execute("""
