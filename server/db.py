@@ -34,15 +34,23 @@ class Database:
         return conn
 
     # Returns True if the username is available, false otherwise
-    def user_available(self, user: str) -> bool:
+    def user_exists(self, user: str) -> bool:
         c: Cursor = self.__conn.cursor()
         c = self.__conn.execute(
             "SELECT username FROM users WHERE username=?", (user,))
         rows: list = c.fetchall()
-        return len(rows) == 0
+        return len(rows) == 1
+
+    # Returns the given user's hashed password
+    def get_pass(self, user: str) -> bytes:
+        c: Cursor = self.__conn.cursor()
+        c = self.__conn.execute(
+            "SELECT password FROM users WHERE username=?", (user,))
+        rows: list = c.fetchall()
+        return rows[0][0]
 
     # Inserts the given username and password into the DB
-    def insert_user(self, user: str, pw: str):
+    def insert_user(self, user: str, pw: bytes):
         self.__conn.execute("""
             INSERT INTO
                 users(username, password)

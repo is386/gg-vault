@@ -35,13 +35,33 @@ def create_account():
 
     # Returns 401 if the user name is taken
     user: str = str(request.form["username"])
-    if not db.user_available(user):
+    if db.user_exists(user):
         return Response("{'error': 'username taken'}", status=401)
 
     # Hashes the given password and inserts it into the db
     pw: bytes = request.form["password"].encode("utf-8")
     hashed: bytes = bcrypt.hashpw(pw, bcrypt.gensalt())
-    db.insert_user(user, str(hashed))
+    db.insert_user(user, hashed)
+
+    return Response(status=200)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    # Returns 401 if the body does not contain valid data
+    if not validAcctBody():
+        return Response("{'error': 'invalid body'}", status=401)
+
+    # Returns 401 if the user name does not exist
+    user: str = str(request.form["username"])
+    if not db.user_exists(user):
+        return Response("{'error': 'username does not exist'}", status=401)
+
+    # Check if the given password matches whats in the DB
+    pw: bytes = request.form["password"].encode("utf-8")
+    hashed: bytes = db.get_pass(user)
+    if not bcrypt.checkpw(pw, hashed):
+        return Response("{'error': 'wrong password'}", status=403)
 
     return Response(status=200)
 
