@@ -1,6 +1,8 @@
+import json
+
 import bcrypt
+import jwt
 from flask import Flask, Response, g, request
-from markupsafe import escape
 
 from db import Database
 
@@ -12,7 +14,12 @@ pass_min: int = 5
 pass_max: int = 36
 db: Database = Database("data/games.db")
 
+# Gets the environment variables from env.json
+with open("env.json") as f:
+    env_data: dict = json.load(f)
 
+
+# Checks if the body contains a valid username and password
 def validAcctBody() -> bool:
     return ("username" in request.form.keys() and
             "password" in request.form.keys() and
@@ -63,7 +70,10 @@ def login():
     if not bcrypt.checkpw(pw, hashed):
         return Response("{'error': 'wrong password'}", status=403)
 
-    return Response(status=200)
+    # Sign a user token for auth
+    token: bytes = jwt.encode(
+        payload={"username": user}, key=env_data["access_token_secret"])
+    return Response("{'token': %s}" % token.decode("utf-8"), status=200)
 
 
 @app.teardown_appcontext
