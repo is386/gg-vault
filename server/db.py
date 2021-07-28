@@ -33,6 +33,10 @@ class Database:
             );""")
         return conn
 
+    # Closes the connection to the database
+    def close(self):
+        self.__conn.close()
+
     # Returns True if the username is available, false otherwise
     def user_exists(self, user: str) -> bool:
         c: Cursor = self.__conn.cursor()
