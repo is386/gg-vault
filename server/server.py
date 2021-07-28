@@ -1,6 +1,8 @@
 import bcrypt
-from flask import Flask, Response, request
+from flask import Flask, Response, g, request
 from markupsafe import escape
+
+from db import Database
 
 app = Flask(__name__)
 
@@ -8,6 +10,7 @@ user_min: int = 1
 user_max: int = 20
 pass_min: int = 5
 pass_max: int = 36
+db: Database = Database("data/games.db")
 
 
 def validAcctBody() -> bool:
@@ -26,18 +29,28 @@ def index():
 
 @app.route("/create", methods=["POST"])
 def create_account():
+    # Returns 401 if the body does not contain valid data
     if not validAcctBody():
-        return Response(status=401)
+        return Response("{'error': 'invalid body'}", status=401)
 
+    # Returns 401 if the user name is taken
     user: str = str(request.form["username"])
-    # TODO: SQLite DB with table for users
-    # TODO: DB module to handle select users by name and insert user
-    # TODO: Check if user name already exists in DB with select
+    if not db.user_available(user):
+        return Response("{'error': 'username taken'}", status=401)
+
+    # Hashes the given password and inserts it into the db
     pw: bytes = request.form["password"].encode("utf-8")
     hashed: bytes = bcrypt.hashpw(pw, bcrypt.gensalt())
-    # TODO: Insert user and hashed password into DB
+    db.insert_user(user, str(hashed))
 
     return Response(status=200)
+
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, "_database", None)
+    if db is not None:
+        db.close()
 
 
 if __name__ == "__main__":
