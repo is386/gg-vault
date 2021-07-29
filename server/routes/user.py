@@ -74,6 +74,12 @@ def login() -> Response:
 
 
 def auth() -> Response:
+    if not authenticate():
+        return Response("{'error': 'not authorized'}", status=401)
+    return Response(status=200)
+
+
+def authenticate() -> str:
     # TODO: Check if header exists
     auth_header = request.headers.get("authorization")
 
@@ -85,7 +91,7 @@ def auth() -> Response:
     user: str = payload["username"]
     db: Database = Database(path)
     if not db.user_exists(user):
-        return Response("{'error': 'username does not exist'}", status=400)
+        return None
 
     db.close()
-    return Response(status=200)
+    return user
