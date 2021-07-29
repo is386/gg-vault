@@ -79,3 +79,27 @@ def add_game() -> Response:
     db.insert_game(user_id, game_id, wishlist)
 
     return Response(status=200)
+
+
+def remove_game() -> Response:
+    # Gets the user name based on the access token
+    user: str = authenticate()
+    if not user:
+        return Response("{'error': 'not authorized'}", status=403)
+
+    # Checks if the request has the proper form
+    if "game_id" not in request.form.keys():
+        return Response("{'error': 'invalid body'}", status=400)
+
+    # Checks if the given game id is an integer
+    try:
+        game_id: int = int(request.form["game_id"])
+    except ValueError:
+        return Response("{'error': 'game_id not integer'}", status=400)
+
+    # Inserts the game into the db for the given user
+    db: Database = Database(path)
+    user_id: int = db.get_user_id(user)
+    db.delete_game(user_id, game_id)
+
+    return Response(status=200)
