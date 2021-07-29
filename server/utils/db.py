@@ -62,3 +62,42 @@ class Database:
                 (?, ?)
             """, (user, pw))
         self.__conn.commit()
+
+    # Inserts the given game id into the DB
+    def insert_game(self, user_id: int, game_id: int, wishlist: bool):
+        self.__conn.execute("""
+            INSERT INTO
+                games(user_id, game_id, wishlist)
+            VALUES
+                (?, ?, ?)
+            """, (user_id, game_id, int(wishlist)))
+        self.__conn.commit()
+
+    # Deletes the given game id from the DB
+    def delete_game(self, user_id: int, game_id: int):
+        self.__conn.execute("""
+            DELETE FROM
+                games
+            WHERE
+                user_id=? AND game_id=?;
+            """, (user_id, game_id))
+        self.__conn.commit()
+
+    # Moves the given game id to/from wishlist
+    def move_game(self, user_id: int, game_id: int, wishlist: bool):
+        self.__conn.execute("""
+            UPDATE
+                games
+            SET
+                wishlist=?
+            WHERE
+                user_id=? AND game_id=?;
+            """, (int(wishlist), user_id, game_id))
+        self.__conn.commit()
+
+    # Returns a list of the games the user has in their lists
+    def get_games(self, user_id: int) -> list:
+        c: Cursor = self.__conn.cursor()
+        c = self.__conn.execute(
+            "SELECT * FROM games WHERE user_id=?", (user_id,))
+        return c.fetchall()
