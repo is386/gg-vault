@@ -1,8 +1,8 @@
 import json
 
 import requests
-from db import Database
 from flask import Response, request
+from utils.db import Database
 
 with open("env.json") as f:
     env: dict = json.load(f)
@@ -12,7 +12,7 @@ client_id: str = env["client_id"]
 bearer: str = "Bearer {}".format(env["bearer"])
 headers: dict = {"Client-ID": client_id, "Authorization": bearer}
 url: str = "https://api.igdb.com/v4/games"
-search_query: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 10;"
+search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 10;"
 
 
 def search() -> Response:
@@ -22,8 +22,8 @@ def search() -> Response:
 
     # Sends the search query to the IGDB API
     query: str = str(request.form["query"])
-    raw: str = search_query.format(query)
-    resp: requests.Response = requests.post(url, data=raw, headers=headers)
+    body: str = search_body.format(query)
+    resp: requests.Response = requests.post(url, data=body, headers=headers)
 
     # Respond with error if the IGDB request fails
     if (resp.status_code != 200):

@@ -2,8 +2,8 @@ import json
 
 import bcrypt
 import jwt
-from db import Database
 from flask import Response, request
+from utils.db import Database
 
 user_min: int = 1
 user_max: int = 20
