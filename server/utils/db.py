@@ -53,6 +53,14 @@ class Database:
         rows: list = c.fetchall()
         return rows[0][0]
 
+    # Returns the user's id
+    def get_user_id(self, user: str) -> int:
+        c: Cursor = self.__conn.cursor()
+        c = self.__conn.execute(
+            "SELECT id FROM users WHERE username=?", (user,))
+        rows: list = c.fetchall()
+        return rows[0][0]
+
     # Inserts the given username and password into the DB
     def insert_user(self, user: str, pw: bytes):
         self.__conn.execute("""
@@ -65,6 +73,8 @@ class Database:
 
     # Inserts the given game id into the DB
     def insert_game(self, user_id: int, game_id: int, wishlist: bool):
+        if self.entry_exists(user_id, game_id):
+            return
         self.__conn.execute("""
             INSERT INTO
                 games(user_id, game_id, wishlist)
@@ -101,3 +111,10 @@ class Database:
         c = self.__conn.execute(
             "SELECT * FROM games WHERE user_id=?", (user_id,))
         return c.fetchall()
+
+    # Check if the game already exists for the user
+    def entry_exists(self, user_id: int, game_id: int) -> bool:
+        c: Cursor = self.__conn.cursor()
+        c = self.__conn.execute(
+            "SELECT * FROM games WHERE user_id=? AND game_id=?", (user_id, game_id))
+        return len(c.fetchall()) > 0
