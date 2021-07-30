@@ -80,14 +80,23 @@ def auth() -> Response:
 
 
 def authenticate() -> str:
-    # TODO: Check if header exists
     auth_header = request.headers.get("authorization")
+    if not auth_header:
+        return None
 
-    # TODO: Check if auth header has proper format
+    # Check if auth header has the proper form
+    if not auth_header.startswith("Bearer "):
+        return None
+
+    # Decode the auth token
     token: str = auth_header.split(" ")[1]
     payload: dict = jwt.decode(token, key=secret)
 
-    # TODO Check if payload has username
+    # Check if the payload has a username field
+    if "username" not in payload.keys():
+        return None
+
+    # Check if user exists
     user: str = payload["username"]
     db: Database = Database(path)
     if not db.user_exists(user):
