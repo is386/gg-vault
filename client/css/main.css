@@ -1,0 +1,15 @@
+.container {
+  padding-top: 1rem;
+}
+
+#search {
+  width: 30vw;
+}
+
+h2 {
+  text-align: center;
+}
+
+table {
+  text-align: center;
+}
