@@ -31,13 +31,13 @@ def validAcctBody() -> bool:
 def create() -> Response:
     # Returns 401 if the body does not contain valid data
     if not validAcctBody():
-        return Response("{'error': 'invalid body'}", status=400)
+        return Response("{'error': 'invalid body'}", status=400, content_type="application/json")
 
     # Returns 401 if the user name is taken
     user: str = str(request.form["username"])
     db: Database = Database(path)
     if db.user_exists(user):
-        return Response("{'error': 'username taken'}", status=400)
+        return Response("{'error': 'username taken'}", status=400, content_type="application/json")
 
     # Hashes the given password and inserts it into the db
     pw: bytes = request.form["password"].encode("utf-8")
@@ -51,31 +51,31 @@ def create() -> Response:
 def login() -> Response:
     # Returns 401 if the body does not contain valid data
     if not validAcctBody():
-        return Response("{'error': 'invalid body'}", status=400)
+        return Response("{'error': 'invalid body'}", status=400, content_type="application/json")
 
     # Returns 401 if the user name does not exist
     user: str = str(request.form["username"])
     db: Database = Database(path)
     if not db.user_exists(user):
-        return Response("{'error': 'username does not exist'}", status=400)
+        return Response("{'error': 'username does not exist'}", status=400, content_type="application/json")
 
     # Check if the given password matches whats in the DB
     pw: bytes = request.form["password"].encode("utf-8")
     hashed: bytes = db.get_pass(user)
     if not bcrypt.checkpw(pw, hashed):
-        return Response("{'error': 'wrong password'}", status=403)
+        return Response("{'error': 'wrong password'}", status=403, content_type="application/json")
 
     # Sign a user token for auth
     token: bytes = jwt.encode(
         payload={"username": user}, key=secret)
 
     db.close()
-    return Response("{'token': %s}" % token.decode("utf-8"), status=200)
+    return Response("{'token': %s}" % token.decode("utf-8"), status=200, content_type="application/json")
 
 
 def auth() -> Response:
     if not authenticate():
-        return Response("{'error': 'not authorized'}", status=401)
+        return Response("{'error': 'not authorized'}", status=401, content_type="application/json")
     return Response(status=200)
 
 
