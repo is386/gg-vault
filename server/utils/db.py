@@ -105,12 +105,22 @@ class Database:
             """, (int(wishlist), user_id, game_id))
         self.__conn.commit()
 
-    # Returns a list of the games the user has in their lists
-    def get_games(self, user_id: int) -> list:
+    # Returns a dict of the games the user has in their lists
+    def get_games(self, user_id: int) -> dict:
+        # TODO: return games as dict
         c: Cursor = self.__conn.cursor()
         c = self.__conn.execute(
             "SELECT * FROM games WHERE user_id=?", (user_id,))
-        return c.fetchall()
+        games: list = c.fetchall()
+        my_games: set = set()
+        wishlist: set = set()
+        user_id: int = games[0][0]
+        for g in games:
+            if g[-1]:
+                wishlist.add(g[1])
+            else:
+                my_games.add(g[1])
+        return {"my_games": my_games, "wishlist": wishlist}
 
     # Check if the game already exists for the user
     def entry_exists(self, user_id: int, game_id: int) -> bool:

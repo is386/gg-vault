@@ -97,9 +97,49 @@ def remove_game() -> Response:
     except ValueError:
         return Response("{'error': 'game_id not integer'}", status=400)
 
-    # Inserts the game into the db for the given user
+    # Deletes the game from the db for the given user
     db: Database = Database(path)
     user_id: int = db.get_user_id(user)
     db.delete_game(user_id, game_id)
 
     return Response(status=200)
+
+
+def get_games() -> Response:
+    # Gets the user name based on the access token
+    user: str = authenticate()
+    if not user:
+        return Response("{'error': 'not authorized'}", status=403)
+
+    # Gets all the games the user has
+    db: Database = Database(path)
+    user_id: int = db.get_user_id(user)
+    games: dict = db.get_games(user_id)
+
+    # Responds with error if the user has no games
+    if not len(games["my_games"]) and not len(games["wishlist"]):
+        return Response("{'error': 'no games'}", status=400)
+
+    return Response(games_json(games), status=200)
+
+
+# Takes in a dict of my_games games and wishlist games and returns json str
+def games_json(games: dict) -> str:
+    my_games: list = []
+    wishlist: list = []
+
+    # Gets data for "my_games" from IGDB
+    for game_id in games["my_games"]:
+        body: str = get_body.format(game_id)
+        resp: requests.Response = requests.post(
+            url, data=body, headers=headers)
+        my_games.append(resp.json())
+
+    # Gets data for "wishlist" from IGDB
+    for game_id in games["wishlist"]:
+        body: str = get_body.format(game_id)
+        resp: requests.Response = requests.post(
+            url, data=body, headers=headers)
+        wishlist.append(resp.json())
+
+    return json.dumps({"my_games": my_games, "wishlist": wishlist})
