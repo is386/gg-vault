@@ -53,6 +53,15 @@ def add_game() -> Response:
         return resp
     game_id: int = int(request.form["game_id"])
 
+    # Gets the game's data from IGDB
+    body: str = get_body.format(game_id)
+    resp: requests.Response = requests.post(url, data=body, headers=headers)
+    game: dict = resp.json()[0]
+    name: str = game["name"]
+    rating: str = game["rating"]
+    genre: str = game["genres"][0]["name"]
+    cover: str = game["cover"]["url"]
+
     # Checks if the request is for a wishlist game
     if "wishlist" in request.form.keys():
         wishlist = True
@@ -60,7 +69,8 @@ def add_game() -> Response:
     # Inserts the game into the db for the given user
     db: Database = Database(path)
     user_id: int = db.get_user_id(user)
-    db.insert_game(user_id, game_id, wishlist)
+    db.insert_game(user_id, game_id, name, genre, rating, cover, wishlist)
+    db.close()
 
     return Response(status=200, content_type="application/json")
 
@@ -81,6 +91,7 @@ def remove_game() -> Response:
     db: Database = Database(path)
     user_id: int = db.get_user_id(user)
     db.delete_game(user_id, game_id)
+    db.close()
 
     return Response(status=200, content_type="application/json")
 
@@ -107,6 +118,7 @@ def move_game() -> Response:
     db: Database = Database(path)
     user_id: int = db.get_user_id(user)
     db.move_game(user_id, game_id, wishlist)
+    db.close()
 
     return Response(status=200, content_type="application/json")
 
@@ -121,12 +133,13 @@ def get_games() -> Response:
     db: Database = Database(path)
     user_id: int = db.get_user_id(user)
     games: dict = db.get_games(user_id)
+    db.close()
 
     # Responds with error if the user has no games
     if not len(games["my_games"]) and not len(games["wishlist"]):
         return Response("{'error': 'no games'}", status=400, content_type="application/json")
 
-    return Response(games_json(games), status=200, content_type="application/json")
+    return Response(json.dumps(games), status=200, content_type="application/json")
 
 
 # Returns a response based on if the game_id exists or is valid
@@ -154,25 +167,3 @@ def check_game_id() -> Response:
         return Response("{'error': 'game id doesn't exist'}", status=400, content_type="application/json")
 
     return None
-
-
-# Takes in a dict of my_games games and wishlist games and returns json str
-def games_json(games: dict) -> str:
-    my_games: list = []
-    wishlist: list = []
-
-    # Gets data for "my_games" from IGDB
-    for game_id in games["my_games"]:
-        body: str = get_body.format(game_id)
-        resp: requests.Response = requests.post(
-            url, data=body, headers=headers)
-        my_games.append(resp.json())
-
-    # Gets data for "wishlist" from IGDB
-    for game_id in games["wishlist"]:
-        body: str = get_body.format(game_id)
-        resp: requests.Response = requests.post(
-            url, data=body, headers=headers)
-        wishlist.append(resp.json())
-
-    return json.dumps({"my_games": my_games, "wishlist": wishlist})

@@ -29,6 +29,10 @@ class Database:
             CREATE TABLE IF NOT EXISTS "games" (
                     "user_id"   INTEGER,
                     "game_id"   INTEGER,
+                    "name"      TEXT,
+                    "genre"     TEXT,
+                    "rating"    TEXT,
+                    "cover"     TEXT,
                     "wishlist"  INTEGER
             );""")
         return conn
@@ -72,15 +76,15 @@ class Database:
         self.__conn.commit()
 
     # Inserts the given game id into the DB
-    def insert_game(self, user_id: int, game_id: int, wishlist: bool):
+    def insert_game(self, user_id: int, game_id: int, name: str, genre: str, rating: str, cover: str, wishlist: bool):
         if self.entry_exists(user_id, game_id):
             return
         self.__conn.execute("""
             INSERT INTO
-                games(user_id, game_id, wishlist)
+                games(user_id, game_id, name, genre, rating, cover, wishlist)
             VALUES
-                (?, ?, ?)
-            """, (user_id, game_id, int(wishlist)))
+                (?, ?, ?, ?, ?, ?, ?)
+            """, (user_id, game_id, name, genre, rating, cover, int(wishlist)))
         self.__conn.commit()
 
     # Deletes the given game id from the DB
@@ -107,19 +111,18 @@ class Database:
 
     # Returns a dict of the games the user has in their lists
     def get_games(self, user_id: int) -> dict:
-        # TODO: return games as dict
         c: Cursor = self.__conn.cursor()
         c = self.__conn.execute(
             "SELECT * FROM games WHERE user_id=?", (user_id,))
         games: list = c.fetchall()
-        my_games: set = set()
-        wishlist: set = set()
-        user_id: int = games[0][0]
+        my_games: list = []
+        wishlist: list = []
+
         for g in games:
-            if g[-1]:
-                wishlist.add(g[1])
-            else:
-                my_games.add(g[1])
+            game: dict = {"id": g[1], "name": g[2],
+                          "genre": g[3], "rating": g[4], "cover": g[5]}
+            wishlist.append(game) if g[-1] else my_games.append(game)
+
         return {"my_games": my_games, "wishlist": wishlist}
 
     # Check if the game already exists for the user
