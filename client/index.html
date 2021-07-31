@@ -1,24 +1,68 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GGVault</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GGVault</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
-<body>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="home.html">GGVault</a>
-      </div>      
-    </nav>
+<body class="login-body">
+  <div class="login-container">
+
+    <div class="container jumbotron title">
+      <h1 class="display-4">GGVault</h1>
+      <p class="lead">This is a simple website to give gamers the ability to keep track of the games they own.</p>
+    </div>
+    
+    <div class="container jumbotron login">
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-login-tab" data-bs-toggle="tab" data-bs-target="#nav-login" type="button" role="tab" aria-controls="nav-login" aria-selected="false">Login</button>
+          <button class="nav-link" id="nav-create-tab" data-bs-toggle="tab" data-bs-target="#nav-create" type="button" role="tab" aria-controls="nav-create" aria-selected="true">Create Account</button>
+        </div>
+      </nav>
+      
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
+          <form class="account-form">
+            <h1 class="display-6">Login</h1>
+            <div class="form-group">
+              <small id="userHelp" class="form-text text-muted">Usernames must be between 1 and 20 characters</small>
+              <input class="form-control" id="user-input" aria-describedby="userHelp" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <small id="passHelp" class="form-text text-muted">Passwords must be between 5 and 36 characters</small>
+              <input type="password" class="form-control" id="pass-input" aria-describedby="userHelp" placeholder="Password" required>
+            </div>
+            <div class="form-check">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        
+        <div class="tab-pane fade" id="nav-create" role="tabpanel" aria-labelledby="nav-create-tab">
+          <form class="account-form">
+            <h1 class="display-6">Create Account</h1>
+            <div class="form-group">
+              <small id="userHelp" class="form-text text-muted">Usernames must be between 1 and 20 characters</small>
+              <input class="form-control" id="user-input" aria-describedby="userHelp" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <small id="passHelp" class="form-text text-muted">Passwords must be between 5 and 36 characters</small>
+              <input type="password" class="form-control" id="pass-input" aria-describedby="userHelp" placeholder="Password" required>
+            </div>
+            <div class="form-check">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
