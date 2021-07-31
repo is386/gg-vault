@@ -1,5 +1,60 @@
 body {
   background-color: whitesmoke !important;
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.login-body {
+  background-image: url("../images/bg.jfif");
+  backdrop-filter: blur(8px);
+
+  background-size: 100%;
+}
+
+.login-container {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  margin-top: 10vh !important;
+  padding-top: 5vh;
+  padding-bottom: 2vh;
+  width: 50vh !important;
+  height: fit-content !important;
+  background-color: whitesmoke;
+  opacity: 85%;
+  border-radius: 25px;
+  color: black;
+  text-align: center;
+}
+
+.login {
+  margin-top: 10vh !important;
+  padding-top: 5vh;
+  padding-bottom: 2vh;
+  width: 50vh !important;
+  height: fit-content !important;
+  background-color: whitesmoke;
+  opacity: 90%;
+  border-radius: 25px;
+  color: black;
+  text-align: center;
+}
+
+.account-form {
+  padding: 5vh;
 }
 
 .container {
