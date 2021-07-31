@@ -1,15 +1,32 @@
+body {
+  background-color: whitesmoke !important;
+}
+
 .container {
   padding-top: 1rem;
 }
 
 #search {
-  width: 30vw;
+  width: 45vw;
+  margin: 1px;
 }
 
-h2 {
+.table {
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 4px 4px 8px gray;
+}
+
+.navbar {
+  box-shadow: 4px 4px 8px gray;
+}
+
+td {
+  vertical-align: middle;
   text-align: center;
 }
 
-table {
-  text-align: center;
+img {
+  width: 100%;
 }
