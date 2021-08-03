@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 
 from routes.game import add_game, get_games, move_game, remove_game, search
 from routes.user import auth, create, login
 
 # Sets up flask app and routes
 app = Flask(__name__)
+CORS(app)
 app.add_url_rule("/login", view_func=login, methods=["POST"])
 app.add_url_rule("/create", view_func=create, methods=["POST"])
 app.add_url_rule("/auth", view_func=auth, methods=["POST"])
