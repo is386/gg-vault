@@ -1,26 +1,28 @@
-let login_url = "http://127.0.0.1:8080/login"
+let create_url = "http://127.0.0.1:8080/create"
 
-function resetUserLogin() {
-    let userInput = $("#user-input-login");
+function resetUserCreate() {
+    let userInput = $("#user-input-create");
     userInput.removeClass("is-invalid");
 }
 
-function resetPassLogin() {
-    let passInput = $("#pass-input-login");
+function resetPassCreate() {
+    let passInput = $("#pass-input-create");
     passInput.removeClass("is-invalid");
 }
 
-function loginError() {
-    let userInput = $("#user-input-login");
-    let passInput = $("#pass-input-login");
+function createError() {
+    let userInput = $("#user-input-create");
+    let passInput = $("#pass-input-create");
     userInput.addClass("is-invalid");
     passInput.addClass("is-invalid");
 }
 
-function sendLogin() {
-    $("#login-error").prop("hidden", true);
-    let userInput = $("#user-input-login");
-    let passInput = $("#pass-input-login");
+function sendCreate() {
+    $("#create-error").prop("hidden", true);
+    $("#create-success").prop( "hidden", true);
+
+    let userInput = $("#user-input-create");
+    let passInput = $("#pass-input-create");
     let user = userInput.val();
     let pass = passInput.val();
 
@@ -38,18 +40,16 @@ function sendLogin() {
 
     formData = {"username": user, "password": pass};
     $.ajax({
-        url: login_url,
+        url: create_url,
         type: 'POST',
         dataType: 'json',
         data: formData,
         complete: function(data) {
             let status = data.status;
             if (status != 200) {
-                $("#login-error").prop( "hidden", false);
+                $("#create-error").prop( "hidden", false);
             } else {
-                let token = data.responseJSON.token;
-                localStorage.ggToken = token;
-                location.href="/client/home.html";
+                $("#create-success").prop( "hidden", false);
             }
         }
     });
