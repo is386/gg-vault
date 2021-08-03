@@ -52,6 +52,13 @@ body {
   margin: 1px;
 }
 
+.error {
+  color: red;
+  background-color: rgb(247, 222, 226);
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .table {
   text-align: center;
   border-radius: 10px;
@@ -70,7 +77,7 @@ img {
 }
 
 .acc-container {
-  opacity: 85%;
+  opacity: 90%;
 }
 
 @keyframes fadeInAnimation {

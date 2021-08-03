@@ -70,7 +70,7 @@ def login() -> Response:
         payload={"username": user}, key=secret)
 
     db.close()
-    return Response("{'token': %s}" % token.decode("utf-8"), status=200, content_type="application/json")
+    return Response(json.dumps({'token': token.decode("utf-8")}), status=200, content_type="application/json")
 
 
 def auth() -> Response:
