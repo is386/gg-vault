@@ -81,10 +81,29 @@ td {
 
 img {
   width: 100%;
+  max-width: 20vh;
 }
 
 .acc-container {
   opacity: 90%;
+}
+
+.trash-btn {
+  background-color: rgb(212, 22, 22);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.trash-btn:hover {
+  background-color: rgb(155, 15, 15);
+}
+
+.trash-btn:active {
+  background-color: rgb(212, 22, 22);
 }
 
 @keyframes fadeInAnimation {
