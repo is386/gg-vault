@@ -2,7 +2,7 @@ body {
   animation: fadeInAnimation ease 1s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
-  background-image: url("../images/bg.jfif");
+  background-image: url("../images/bg.png");
   backdrop-filter: blur(8px);
   background-size: 100%;
 }
@@ -13,13 +13,12 @@ body {
   height: 100vh;
 }
 
-#search {
-  width: 45vw;
-  margin: 1px;
-}
-
 .card {
   width: 30vh !important;
+}
+
+button {
+  margin-right: 5px !important;
 }
 
 @keyframes fadeInAnimation {
