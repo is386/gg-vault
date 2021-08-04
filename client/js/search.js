@@ -1,5 +1,6 @@
 let search_url = "http://127.0.0.1:8080/search"
 let add_url = "http://127.0.0.1:8080/add"
+let games_url = "http://127.0.0.1:8080/games"
 
 function search() {
     let urlParams = new URLSearchParams(window.location.search);
@@ -16,15 +17,35 @@ function search() {
             if (status != 200) {
                 return;
             }
-            populateResults(data.responseJSON);
+            checkGames(data.responseJSON);
         }
     });
 }
 
-function populateResults(games) {
+function checkGames(searchGames) {
+    $.ajax({
+        url: games_url,
+        type: "POST",
+        dataType: "json",
+        headers: {"Authorization": "Bearer " + localStorage.ggToken},
+        complete: function(data) {
+            let status = data.status;
+            if (status == 200) {
+                populateResults(searchGames, data.responseJSON);
+            }
+        }
+    });
+}
+
+function populateResults(searchGames, myGames) {
+    let ids = [];
+    for (let g of myGames.wishlist.concat(myGames.my_games)) {
+        ids.push(g.id)
+    }
+    console.log(ids);
     let container = $("#results");
-    for (let g of games) {
-        if (!g.cover) {
+    for (let g of searchGames) {
+        if (ids.includes(g.id) || !g.cover) {
             continue;
         }
         let card = $(`
