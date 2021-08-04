@@ -41,8 +41,8 @@ function sendCreate() {
     formData = {"username": user, "password": pass};
     $.ajax({
         url: create_url,
-        type: 'POST',
-        dataType: 'json',
+        type: "POST",
+        dataType: "json",
         data: formData,
         complete: function(data) {
             let status = data.status;
