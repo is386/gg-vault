@@ -8,8 +8,8 @@ function authHome() {
 
     $.ajax({
         url: auth_url,
-        type: 'POST',
-        dataType: 'json',
+        type: "POST",
+        dataType: "json",
         headers: {"Authorization": "Bearer " + localStorage.ggToken},
         complete: function(data) {
             let status = data.status;
@@ -27,8 +27,8 @@ function authLogin() {
 
     $.ajax({
         url: auth_url,
-        type: 'POST',
-        dataType: 'json',
+        type: "POST",
+        dataType: "json",
         headers: {"Authorization": "Bearer " + localStorage.ggToken},
         complete: function(data) {
             let status = data.status;
