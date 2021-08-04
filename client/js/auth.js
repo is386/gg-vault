@@ -38,3 +38,8 @@ function authLogin() {
         }
     });
 }
+
+function logout() {
+    localStorage.removeItem("ggToken");
+    location.reload();
+}
