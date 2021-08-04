@@ -15,8 +15,10 @@ function search() {
         complete: function(data) {
             let status = data.status;
             if (status != 200) {
+                $("#no-results").attr({"hidden": false});
                 return;
             }
+            $("#no-results").attr({"hidden": true});
             checkGames(data.responseJSON);
         }
     });
