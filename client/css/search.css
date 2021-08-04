@@ -21,6 +21,16 @@ button {
   margin-right: 5px !important;
 }
 
+#no-results {
+  color: red;
+  border-radius: 10px;
+  background-color: rgb(247, 209, 215);
+  text-align: center;
+  padding: 5px;
+  margin: 10px;
+  opacity: 90%;
+}
+
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;

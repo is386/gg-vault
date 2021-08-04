@@ -14,7 +14,7 @@ client_id: str = env["client_id"]
 bearer: str = "Bearer {}".format(env["bearer"])
 headers: dict = {"Client-ID": client_id, "Authorization": bearer}
 url: str = "https://api.igdb.com/v4/games"
-search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 10;"
+search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 500;"
 get_body: str = "where id = {}; fields name,genres.name,rating,cover.url;"
 
 
