@@ -37,7 +37,7 @@ def create() -> Response:
 
     # Hashes the given password and inserts it into the db
     pw: bytes = request.form["password"].encode("utf-8")
-    hashed: bytes = bcrypt.hashpw(str(pw), bcrypt.gensalt())
+    hashed: bytes = bcrypt.hashpw(pw, bcrypt.gensalt())
     db.insert_user(user, hashed)
 
     db.close()
