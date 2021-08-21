@@ -1,4 +1,5 @@
 import json
+from os import environ as env
 
 import bcrypt
 import jwt
@@ -10,12 +11,8 @@ user_max: int = 20
 pass_min: int = 5
 pass_max: int = 36
 
-# Gets the environment variables from env.json
-with open("env.json") as f:
-    env: dict = json.load(f)
-
-path: str = env["db_path"]
-secret: str = env["access_token_secret"]
+path: str = env["DB_PATH"]
+secret: str = env["SECRET"]
 
 
 # Checks if the body contains a valid username and password
