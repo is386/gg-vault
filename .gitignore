@@ -2,4 +2,4 @@ test.py
 /data
 *.db
 __pycache__
-env.json
+env

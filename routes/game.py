@@ -1,4 +1,5 @@
 import json
+from os import environ as env
 
 import requests
 from flask import Response, request
@@ -6,12 +7,9 @@ from utils.db import Database
 
 from routes.user import authenticate
 
-with open("env.json") as f:
-    env: dict = json.load(f)
-
-path: str = env["db_path"]
-client_id: str = env["client_id"]
-bearer: str = "Bearer {}".format(env["bearer"])
+path: str = env["DB_PATH"]
+client_id: str = env["CLIENT"]
+bearer: str = "Bearer {}".format(env["BEARER"])
 headers: dict = {"Client-ID": client_id, "Authorization": bearer}
 url: str = "https://api.igdb.com/v4/games"
 search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 100;"
