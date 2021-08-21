@@ -6,6 +6,7 @@ let ids = [];
 let total;
 let resultsIndex = 0;
 
+// Sends a request to search for games
 function search() {
     let urlParams = new URLSearchParams(window.location.search);
     let searchTerm = urlParams.get("searchTerm");
@@ -28,6 +29,7 @@ function search() {
     });
 }
 
+// Sends a request to get the games the user already owns
 function checkGames(searchGames) {
     $.ajax({
         url: games_url,
@@ -45,6 +47,7 @@ function checkGames(searchGames) {
     });
 }
 
+// Populates the search results
 function populateResults(searchGames, myGames) {
     if (myGames) {
         for (let g of myGames.wishlist.concat(myGames.my_games)) {
@@ -54,10 +57,10 @@ function populateResults(searchGames, myGames) {
     games = searchGames;
     total = games.length;
     let end = resultsIndex + 8;
-
     loadGames(resultsIndex, end);
 }
 
+// Loads the number of games in the search results within a range
 function loadGames(start, end) {
     let i = start;
     let container = $("#results");
@@ -95,6 +98,7 @@ function loadGames(start, end) {
     }
 }
 
+// Sends a request to add a game to a user's lists
 function addGame(gameId, wishlist) {
     if (wishlist) {
         formData = {"game_id": gameId, "wishlist": 1};
@@ -112,6 +116,7 @@ function addGame(gameId, wishlist) {
     });
 }
 
+// Advances the results screen by 8 entries
 function next() {
     resultsIndex += 9;
     if (resultsIndex > games.length) {
@@ -121,6 +126,7 @@ function next() {
     loadGames(resultsIndex, end);
 }
 
+// Goes backward by 8 entries
 function back() {
     resultsIndex -= 9;
     if (resultsIndex < 0) {

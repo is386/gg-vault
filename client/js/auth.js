@@ -1,5 +1,6 @@
 let auth_url = "http://127.0.0.1:8080/auth"
 
+// Checks if the user logged in before to skip the login screen
 function authHome() {
     if (!localStorage.ggToken) {
         location.href="/client/index.html";
@@ -20,6 +21,7 @@ function authHome() {
     });
 }
 
+// Sends a request to validate the user's login information
 function authLogin() {
     if (!localStorage.ggToken) {
         return;
@@ -39,6 +41,7 @@ function authLogin() {
     });
 }
 
+// Logs the user out by removing their token
 function logout() {
     localStorage.removeItem("ggToken");
     location.reload();

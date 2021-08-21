@@ -1,6 +1,7 @@
 let games_url = "http://127.0.0.1:8080/games"
 let delete_url = "http://127.0.0.1:8080/remove"
 
+// Gets the user's games from the database
 function loadGames() {
     $.ajax({
         url: games_url,
@@ -16,11 +17,13 @@ function loadGames() {
     });
 }
 
+// Populates the user's games and wishlist lists
 function populate(games) {
     populateTable(games.my_games, $("#my-games-tbody"));
     populateTable(games.wishlist, $("#wishlist-tbody"));
 }
 
+// Populates a table with the game information
 function populateTable(games, tbody) {
     for (let g of games) {
         let tr = $("<tr></tr>").attr({"id": g.id});
@@ -43,6 +46,7 @@ function populateTable(games, tbody) {
     }
 }
 
+// Sends a request to delete a game
 function deleteGame() {
     let gameId = $("#deleteModal").data("gameData").gameId;
     $.ajax({
