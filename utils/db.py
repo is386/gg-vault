@@ -1,22 +1,26 @@
-from os import path
+from os import mkdir, path
 from sqlite3 import Connection, Cursor, connect
+
+db_path: str = "data/games.db"
 
 
 class Database:
 
-    def __init__(self, db_path: str):
-        self.__conn = self.__connect(db_path)
+    def __init__(self):
+        self.__conn = self.__connect()
 
     # Returns a connection to the DB at the given path
     # Creates the DB if it does not exist
-    def __connect(self, db_path: str) -> Connection:
+    def __connect(self) -> Connection:
+        if not path.exists("./data"):
+            mkdir("./data")
         if not path.exists(db_path):
             open(db_path, "w+").close()
-        return self.__init_db(db_path)
+        return self.__init_db()
 
     # Returns a connection to the DB
     # Creates the tables if they do not exist
-    def __init_db(self, db_path: str) -> Connection:
+    def __init_db(self) -> Connection:
         conn: Connection = connect(db_path, check_same_thread=False)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS "users" (

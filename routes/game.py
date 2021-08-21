@@ -7,7 +7,6 @@ from utils.db import Database
 
 from routes.user import authenticate
 
-path: str = env["DB_PATH"]
 client_id: str = env["CLIENT"]
 bearer: str = "Bearer {}".format(env["BEARER"])
 headers: dict = {"Client-ID": client_id, "Authorization": bearer}
@@ -65,7 +64,7 @@ def add_game() -> Response:
         wishlist = True
 
     # Inserts the game into the db for the given user
-    db: Database = Database(path)
+    db: Database = Database()
     user_id: int = db.get_user_id(user)
     db.insert_game(user_id, game_id, name, genre, rating, cover, wishlist)
     db.close()
@@ -86,7 +85,7 @@ def remove_game() -> Response:
     game_id: int = int(request.form["game_id"])
 
     # Deletes the game from the db for the given user
-    db: Database = Database(path)
+    db: Database = Database()
     user_id: int = db.get_user_id(user)
     db.delete_game(user_id, game_id)
     db.close()
@@ -113,7 +112,7 @@ def move_game() -> Response:
         wishlist = True
 
     # Moves the game between my_games and wishlist
-    db: Database = Database(path)
+    db: Database = Database()
     user_id: int = db.get_user_id(user)
     db.move_game(user_id, game_id, wishlist)
     db.close()
@@ -128,7 +127,7 @@ def get_games() -> Response:
         return Response("{'error': 'not authorized'}", status=403, content_type="application/json")
 
     # Gets all the games the user has
-    db: Database = Database(path)
+    db: Database = Database()
     user_id: int = db.get_user_id(user)
     games: dict = db.get_games(user_id)
     db.close()

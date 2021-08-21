@@ -28,8 +28,6 @@ To use the `requirements.txt` file, just run `pip3 install -r requirements.txt`.
 
 You will need the following environment variables set for this application:
 
-- `DB_PATH`: used to house the database created by the server to store user information
-
 - `CLIENT`: the client id that you can get from the IGDB API
 
 - `BEARER`: the bearer token provided to you by the IGDB API
