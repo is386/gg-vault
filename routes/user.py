@@ -11,7 +11,6 @@ user_max: int = 20
 pass_min: int = 5
 pass_max: int = 36
 
-path: str = env["DB_PATH"]
 secret: str = env["SECRET"]
 
 
@@ -32,7 +31,7 @@ def create() -> Response:
 
     # Returns 401 if the user name is taken
     user: str = str(request.form["username"])
-    db: Database = Database(path)
+    db: Database = Database()
     if db.user_exists(user):
         return Response("{'error': 'username taken'}", status=400, content_type="application/json")
 
@@ -52,7 +51,7 @@ def login() -> Response:
 
     # Returns 401 if the user name does not exist
     user: str = str(request.form["username"])
-    db: Database = Database(path)
+    db: Database = Database()
     if not db.user_exists(user):
         return Response("{'error': 'username does not exist'}", status=400, content_type="application/json")
 
@@ -95,7 +94,7 @@ def authenticate() -> str:
 
     # Check if user exists
     user: str = payload["username"]
-    db: Database = Database(path)
+    db: Database = Database()
     if not db.user_exists(user):
         return None
 
