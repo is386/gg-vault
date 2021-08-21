@@ -1,9 +1,9 @@
-let auth_url = "http://127.0.0.1:8080/auth"
+let auth_url = "api/auth"
 
 // Checks if the user logged in before to skip the login screen
 function authHome() {
     if (!localStorage.ggToken) {
-        location.href="/client/index.html";
+        location.href="/";
         return;
     }
 
@@ -15,7 +15,7 @@ function authHome() {
         complete: function(data) {
             let status = data.status;
             if (status != 200) {
-                location.href="/client/index.html";
+                location.href="/";
             }
         }
     });
@@ -35,7 +35,7 @@ function authLogin() {
         complete: function(data) {
             let status = data.status;
             if (status == 200) {
-                location.href="/client/home.html";
+                location.href="/games";
             }
         }
     });

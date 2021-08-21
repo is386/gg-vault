@@ -1,4 +1,4 @@
-let login_url = "http://127.0.0.1:8080/login"
+let login_url = "api/login"
 
 // Colors the user input red to show an error
 function resetUserLogin() {
@@ -53,7 +53,7 @@ function sendLogin() {
             } else {
                 let token = data.responseJSON.token;
                 localStorage.ggToken = token;
-                location.href="/client/home.html";
+                location.href="/";
             }
         }
     });
