@@ -1,6 +1,6 @@
-let search_url = "http://127.0.0.1:8080/search"
-let add_url = "http://127.0.0.1:8080/add"
-let games_url = "http://127.0.0.1:8080/games"
+let search_url = "api/search"
+let add_url = "api/add"
+let games_url = "api/games"
 let games;
 let ids = [];
 let total;

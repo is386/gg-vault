@@ -1,4 +1,4 @@
-let create_url = "http://127.0.0.1:8080/create"
+let create_url = "api/create"
 
 // Colors the user input red to show an error
 function resetUserCreate() {

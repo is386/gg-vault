@@ -1,5 +1,5 @@
-let games_url = "http://127.0.0.1:8080/games"
-let delete_url = "http://127.0.0.1:8080/remove"
+let games_url = "api/games"
+let delete_url = "api/remove"
 
 // Gets the user's games from the database
 function loadGames() {
