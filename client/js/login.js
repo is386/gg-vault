@@ -1,15 +1,18 @@
 let login_url = "http://127.0.0.1:8080/login"
 
+// Colors the user input red to show an error
 function resetUserLogin() {
     let userInput = $("#user-input-login");
     userInput.removeClass("is-invalid");
 }
 
+// Colors the password input red to show an error
 function resetPassLogin() {
     let passInput = $("#pass-input-login");
     passInput.removeClass("is-invalid");
 }
 
+// If the user did not fill one of the fields, it colors the fields red
 function loginError() {
     let userInput = $("#user-input-login");
     let passInput = $("#pass-input-login");
@@ -17,6 +20,7 @@ function loginError() {
     passInput.addClass("is-invalid");
 }
 
+// Sends a request to create an account
 function sendLogin() {
     $("#login-error").prop("hidden", true);
     let userInput = $("#user-input-login");

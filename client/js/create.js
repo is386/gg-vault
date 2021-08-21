@@ -1,15 +1,18 @@
 let create_url = "http://127.0.0.1:8080/create"
 
+// Colors the user input red to show an error
 function resetUserCreate() {
     let userInput = $("#user-input-create");
     userInput.removeClass("is-invalid");
 }
 
+// Colors the password input red to show an error
 function resetPassCreate() {
     let passInput = $("#pass-input-create");
     passInput.removeClass("is-invalid");
 }
 
+// If the user did not fill one of the fields, it colors the fields red
 function createError() {
     let userInput = $("#user-input-create");
     let passInput = $("#pass-input-create");
@@ -17,6 +20,7 @@ function createError() {
     passInput.addClass("is-invalid");
 }
 
+// Sends a request to create an account
 function sendCreate() {
     $("#create-error").prop("hidden", true);
     $("#create-success").prop( "hidden", true);
