@@ -45,11 +45,20 @@
   </nav>
 
   <div class="container mb-4">
-      <h1 id="no-results" class="display-4" hidden>No results found</h1>
-      <div id="results" class="row outer-container mt-4">
+    <h1 id="no-results" class="display-4" hidden>No results found</h1>
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="#" onclick="back();"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#" onclick="next();">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        </li>
+      </ul>
+    </nav>
+    <div id="results" class="row outer-container mt-4">
+    </div>
   </div>
-  </div>
-
 
   <script>
     function init() {

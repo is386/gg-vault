@@ -14,7 +14,7 @@ client_id: str = env["client_id"]
 bearer: str = "Bearer {}".format(env["bearer"])
 headers: dict = {"Client-ID": client_id, "Authorization": bearer}
 url: str = "https://api.igdb.com/v4/games"
-search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 500;"
+search_body: str = "fields name,genres.name,rating,cover.url; search \"{}\"; limit 100;"
 get_body: str = "where id = {}; fields name,genres.name,rating,cover.url;"
 
 
@@ -58,7 +58,7 @@ def add_game() -> Response:
     resp: requests.Response = requests.post(url, data=body, headers=headers)
     game: dict = resp.json()[0]
     name: str = game["name"]
-    rating: str = game["rating"]
+    rating: str = game["rating"] if "rating" in game else None
     genre: str = game["genres"][0]["name"]
     cover: str = game["cover"]["url"]
 

@@ -1,6 +1,10 @@
 let search_url = "http://127.0.0.1:8080/search"
 let add_url = "http://127.0.0.1:8080/add"
 let games_url = "http://127.0.0.1:8080/games"
+let games;
+let ids = [];
+let total;
+let resultsIndex = 0;
 
 function search() {
     let urlParams = new URLSearchParams(window.location.search);
@@ -34,22 +38,40 @@ function checkGames(searchGames) {
             let status = data.status;
             if (status == 200) {
                 populateResults(searchGames, data.responseJSON);
+            } else {
+                populateResults(searchGames, null);
             }
         }
     });
 }
 
 function populateResults(searchGames, myGames) {
-    let ids = [];
-    for (let g of myGames.wishlist.concat(myGames.my_games)) {
-        ids.push(g.id)
+    if (myGames) {
+        for (let g of myGames.wishlist.concat(myGames.my_games)) {
+            ids.push(g.id)
+        }
     }
-    console.log(ids);
+    games = searchGames;
+    total = games.length;
+    let end = resultsIndex + 8;
+
+    loadGames(resultsIndex, end);
+}
+
+function loadGames(start, end) {
+    let i = start;
     let container = $("#results");
-    for (let g of searchGames) {
+    container.empty();
+
+    while (i < end) {
+        let g = games[i];
+
         if (ids.includes(g.id) || !g.cover) {
+            i++;
+            end++;
             continue;
         }
+
         let card = $(`
         <div class="col-auto mb-3">
             <div id=${g.id} class="card text-center" style="width: 18rem;">
@@ -69,6 +91,7 @@ function populateResults(searchGames, myGames) {
         });
         card.find(".card-body").append(myGamesBtn).append(wishBtn);
         container.append(card);
+        i++;
     }
 }
 
@@ -87,4 +110,22 @@ function addGame(gameId, wishlist) {
         complete: function(data) {
         }
     });
+}
+
+function next() {
+    resultsIndex += 9;
+    if (resultsIndex > games.length) {
+        resultsIndex -= 9;
+    }
+    let end = resultsIndex + 8;
+    loadGames(resultsIndex, end);
+}
+
+function back() {
+    resultsIndex -= 9;
+    if (resultsIndex < 0) {
+        resultsIndex = 0;
+    }
+    let end = resultsIndex + 8;
+    loadGames(resultsIndex, end);
 }
