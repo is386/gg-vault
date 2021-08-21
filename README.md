@@ -20,7 +20,7 @@ To run the server, you will need to install the following modules:
 
 - `PyJWT`
 
-- `python_bcrypt`
+- `bcrypt`
 
 To use the `requirements.txt` file, just run `pip3 install -r requirements.txt`.
 
