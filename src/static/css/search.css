@@ -35,6 +35,10 @@ button {
   margin-top: 3vh;
 }
 
+.disabled {
+  opacity: 0.25;
+}
+
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;
