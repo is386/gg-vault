@@ -67,7 +67,7 @@ function loadGames(start, end) {
     let container = $("#results");
     container.empty();
 
-    while (i < end) {
+    while (i < end && i < games.length) {
         let g = games[i];
 
         if (ids.includes(g.id) || !g.cover) {
@@ -85,23 +85,23 @@ function loadGames(start, end) {
                 </div>
             </div>
         </div>`)
-        let myGamesBtn = $("<button id=\"my-games-btn\" class=\"btn btn-success mt-2\"><i class=\"fa fa-plus\"></i> My Games</button>");
-        let wishBtn = $("<button id=\"wish-btn\" class=\"btn btn-primary mt-2\"><i class=\"fa fa-plus\"></i> Wishlist</button>");
-        
-        myGamesBtn.click(function() {
-            addGame(g.id, 0);
-        });
+        let footer = $("<div class=\"card-footer\">Added</div>")
 
-        wishBtn.click(function() {
-            addGame(g.id, 1);
-        });
-
-        card.find(".card-body").append(myGamesBtn).append(wishBtn);
-
-        if (added.includes(g.id)) {
-            card.addClass( "disabled");
-            myGamesBtn.prop( "disabled", true);
-            wishBtn.prop( "disabled", true);
+        if (!added.includes(g.id)) {
+            let myGamesBtn = $("<button id=\"my-games-btn\" class=\"btn btn-success mt-2\"><i class=\"fa fa-plus\"></i> My Games</button>");
+            let wishBtn = $("<button id=\"wish-btn\" class=\"btn btn-primary mt-2\"><i class=\"fa fa-plus\"></i> Wishlist</button>");
+            
+            myGamesBtn.click(function() {
+                addGame(g.id, 0);
+            });
+    
+            wishBtn.click(function() {
+                addGame(g.id, 1);
+            });
+            card.find(".card-body").append(myGamesBtn).append(wishBtn);
+        } else {
+            card.find("#" + g.id).addClass( "disabled");
+            card.find("#" + g.id).append(footer);
         }
 
         container.append(card);
@@ -128,8 +128,10 @@ function addGame(gameId, wishlist) {
     added.push(gameId);
     let card = $("#" + gameId);
     card.addClass( "disabled");
-    card.find("#my-games-btn").prop( "disabled", true);
-    card.find("#wish-btn").prop( "disabled", true);
+    card.find("#my-games-btn").remove();
+    card.find("#wish-btn").remove();
+    let footer = $("<div class=\"card-footer\">Added</div>")
+    card.append(footer);
 }
 
 // Advances the results screen by 8 entries
