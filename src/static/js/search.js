@@ -3,6 +3,7 @@ let add_url = "api/add"
 let games_url = "api/games"
 let games;
 let ids = [];
+let added = [];
 let total;
 let resultsIndex = 0;
 
@@ -84,15 +85,25 @@ function loadGames(start, end) {
                 </div>
             </div>
         </div>`)
-        let myGamesBtn = $("<button class=\"btn btn-success mt-2\"><i class=\"fa fa-plus\"></i> My Games</button>");
-        let wishBtn = $("<button class=\"btn btn-primary mt-2\"><i class=\"fa fa-plus\"></i> Wishlist</button>");
+        let myGamesBtn = $("<button id=\"my-games-btn\" class=\"btn btn-success mt-2\"><i class=\"fa fa-plus\"></i> My Games</button>");
+        let wishBtn = $("<button id=\"wish-btn\" class=\"btn btn-primary mt-2\"><i class=\"fa fa-plus\"></i> Wishlist</button>");
+        
         myGamesBtn.click(function() {
             addGame(g.id, 0);
         });
+
         wishBtn.click(function() {
             addGame(g.id, 1);
         });
+
         card.find(".card-body").append(myGamesBtn).append(wishBtn);
+
+        if (added.includes(g.id)) {
+            card.addClass( "disabled");
+            myGamesBtn.prop( "disabled", true);
+            wishBtn.prop( "disabled", true);
+        }
+
         container.append(card);
         i++;
     }
@@ -114,6 +125,11 @@ function addGame(gameId, wishlist) {
         complete: function(data) {
         }
     });
+    added.push(gameId);
+    let card = $("#" + gameId);
+    card.addClass( "disabled");
+    card.find("#my-games-btn").prop( "disabled", true);
+    card.find("#wish-btn").prop( "disabled", true);
 }
 
 // Advances the results screen by 8 entries
