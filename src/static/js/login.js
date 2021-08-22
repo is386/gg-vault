@@ -52,7 +52,10 @@ function sendLogin() {
                 $("#login-error").prop( "hidden", false);
             } else {
                 let token = data.responseJSON.token;
+                let name = data.responseJSON.username;
+                console.log(user);
                 localStorage.ggToken = token;
+                localStorage.username = name;
                 location.href="/";
             }
         }
