@@ -36,7 +36,20 @@ button {
 }
 
 .disabled {
-  opacity: 0.25;
+  opacity: 0.45;
+}
+
+.success {
+  color: green;
+  background-color: rgb(196, 252, 196);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+.card-footer {
+  color: green !important;
+  background-color: rgb(196, 252, 196) !important;
 }
 
 @keyframes fadeInAnimation {
