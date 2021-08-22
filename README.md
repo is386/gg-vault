@@ -36,4 +36,4 @@ You will need the following environment variables set for this application:
 
 ## Run the Server
 
-Navigate to the `server` directory, then run the command `python server.py`. By default it runs on port `8080`. You can run the client application using any method of rendering HTML files.
+Navigate to the `server` directory, then run the command `python server.py`.
