@@ -68,7 +68,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
-              <h3>My Games</h3>
+              <h3 id="my-games-title"></h3>
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -119,6 +119,7 @@
     function init() {
       authHome();
       loadGames();
+      $("#my-games-title").text(localStorage.username + "'s Games");
     }
   </script>
 </body>

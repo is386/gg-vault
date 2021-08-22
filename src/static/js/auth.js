@@ -44,5 +44,6 @@ function authLogin() {
 // Logs the user out by removing their token
 function logout() {
     localStorage.removeItem("ggToken");
+    localStorage.removeItem("username");
     location.reload();
 }
