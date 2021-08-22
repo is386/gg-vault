@@ -36,4 +36,4 @@ You will need the following environment variables set for this application:
 
 ## Run the Server
 
-Navigate to the `server` directory, then run the command `python server.py`.
+Navigate to the `src` directory, then run the command `python run.py`.
